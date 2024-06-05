@@ -1,6 +1,8 @@
 package com.example.springcorebasic;
 
+import com.example.springcorebasic.discount.DiscountPolicy;
 import com.example.springcorebasic.discount.FixDiscountPolicy;
+import com.example.springcorebasic.member.MemberRepository;
 import com.example.springcorebasic.member.MemberService;
 import com.example.springcorebasic.member.MemberServiceImpl;
 import com.example.springcorebasic.member.MemoryMemberRepository;
@@ -10,10 +12,18 @@ import com.example.springcorebasic.order.OrderServiceImpl;
 public class AppConfig {
 
     public MemberService memberService() {
-        return new MemberServiceImpl(new MemoryMemberRepository());
+        return new MemberServiceImpl(memberRepository());
     }
 
     public OrderService orderService() {
-        return new OrderServiceImpl(new MemoryMemberRepository(), new FixDiscountPolicy());
+        return new OrderServiceImpl(memberRepository(), discountPolicy());
+    }
+
+    public MemberRepository memberRepository() {
+        return new MemoryMemberRepository();
+    }
+    
+    public DiscountPolicy discountPolicy() {
+        return new FixDiscountPolicy();
     }
 }
